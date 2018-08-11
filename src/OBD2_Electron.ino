@@ -5,13 +5,15 @@
  * Date: 7-29-18
  */
 
-#include "MessageHandler.h"
+#include "CommandHandler.h"
 #include "CloudHandler.h"
 
 // Predefined settings for USART
 static const long USB_SPEED = 9600;
 static const long STN1110_SPEED = 38400;
 static const long CONFIG = SERIAL_8N1;
+
+static CommandHandler commandHandler;
 
 // setup() runs once, when the device is first turned on.
 void setup()
@@ -40,5 +42,5 @@ void loop()
 
 void setupSTN1110()
 {
-  Serial1.write("STBR " + 38400);
+  commandHandler.sendCommand("STBR",{"38400"});
 }
