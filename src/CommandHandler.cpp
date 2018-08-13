@@ -21,6 +21,9 @@ void CommandHandler::sendCommand(std::string command, std::vector<std::string> a
   commandQueue.push(fullCommand);
 }
 
+/*
+Grab the next command to send from the queue
+*/
 std::string CommandHandler::nextCommand()
 {
   if(!commandQueue.empty())
@@ -35,7 +38,7 @@ std::string CommandHandler::nextCommand()
 /*
 Process Commands
 */
-void CommandHandler::processCommands()
+void CommandHandler::processData(int data)
 {
 
 }

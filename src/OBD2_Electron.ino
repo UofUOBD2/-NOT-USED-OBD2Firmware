@@ -7,6 +7,7 @@
 
 #include "CommandHandler.h"
 #include "CloudHandler.h"
+#include <string>
 
 // Predefined settings for USART
 static const long USB_SPEED = 9600;
@@ -23,7 +24,6 @@ void setup()
       Serial1 is communication with the STN1110 device
   */
   Serial.begin(USB_SPEED);
-  Serial1.blockOnOverrun(false);
   Serial1.begin(STN1110_SPEED, CONFIG);
 
   setupSTN1110();
@@ -32,15 +32,26 @@ void setup()
 // loop() runs over and over again, as quickly as it can execute.
 void loop()
 {
-  // Serial1 is the USART input from STN1110
+  // When we recieve input from the STN1110
   if(Serial1.available())
   {
     int input = Serial1.read();
     Serial.write("Serial 1 Received");
+    commandHandler.processData(input);
+  }
+  // If we can write to the STN1110, go ahead and send the next command
+  if(Serial1.availableForWrite())
+  {
+    // Write the next command to send
+    // The serial write function does not support string objects so a c style string must be used
+    std::string str = commandHandler.nextCommand();
+    Serial1.write(str.c_str());
   }
 }
 
 void setupSTN1110()
 {
+  // Detect the communication protocol and the baud rate for the STN1110
+  commandHandler.sendCommand("ATSP0");
   commandHandler.sendCommand("STBR",{"38400"});
 }

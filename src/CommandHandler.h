@@ -12,13 +12,15 @@ public:
 
   CommandHandler();
 
-  void sendCommand(std::string command, std::vector<std::string> arguments);
+  void sendCommand(std::string command, std::vector<std::string> arguments = {});
 
   std::string nextCommand();
 
-  void processCommands();
+  void processData(int data);
 
   void clearCommands();
+
+
 
 private:
 
